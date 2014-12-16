@@ -1,54 +1,50 @@
 import RPi.GPIO as GPIO
 import time
 
-'''
-pins = [7,13,15,16]
+"""
+Author: Dylan Zingler
+Date: 12/15/14
+Description: Class object for an LED. This allows easy on and off as well as blinking functionality for the LED with simple calls like led2.on() or led5.blink()"""
 
-for p in pins:    
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(p, GPIO.OUT)
-    GPIO.output(p, False)
-'''
+class LED:
+    ''' A class for a single LED wired to the pi'''
+    pin = None
+    
+    def __init__(self, pin, pin_type):
+        self.pin = pin
+        self.pin_type = pin_type
+        
+        # No GPIO Warnings
+        GPIO.setwarnings(False)
+        
+        if pin_type in  {"BOARD", "Board", "board"}:            
+            # Sets up GPIO, BOARD for actual Pin numbers
+            GPIO.setmode(GPIO.BOARD)
+        elif pin_type in {"BCM", "bcm"}:
+            # BCM for GPIO numbers (labeled on Cobbler)
+            GPIO.setmode(GPIO.BCM)
+        else:
+            print "Did not understand pin type, setting to GPIO.BCM"
+            GPIO.setmode(GPIO.BCM)
+    
+        # Setting up pin for output
+        GPIO.setup(pin, GPIO.OUT)
+        
+    def blink(self, seconds):
+        self.on()
+        time.sleep(seconds/2)
+        self.off()
+        time.sleep(seconds/2)
+        
+    def on(self):
+        GPIO.output(self.pin, GPIO.HIGH)
 
-def reading(sensor, trig, echo):
-    GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BOARD)
-
-    if sensor == 0:
-        GPIO.setup(trig, GPIO.OUT) 	# Trig = GPIO.OUT
-        GPIO.setup(echo, GPIO.IN)	# Echo = GPIO.IN
-        GPIO.setup(trig, GPIO.LOW)
-
-        time.sleep(0.3)
-
-        GPIO.output(trig, True)
-
-        time.sleep(0.00001)
-
-        GPIO.output(trig, False)
-
-        while GPIO.input(echo) == 0:
-            signaloff = time.time()
-
-        while GPIO.input(echo) == 1:
-            signalon = time.time()
-
-        timepassed = signalon - signaloff
-
-        distance = timepassed * 17000
-
-        return distance
-
-        GPIO.cleanup()
-
-    else:	
-        print "Incorrect usonic() function variable."
-
-
-
-t = 12 # trigger
-e = 11 # echo
-
-while True:
-    print reading(0, t, e)
-    time.sleep(.35)
+    def off(self):
+        GPIO.output(self.pin, GPIO.LOW)
+        
+if __name__=="__main__":
+    led = LED(17,"BCM")
+    
+    for i in range(0,25):
+        led.blink(.2)
+    
