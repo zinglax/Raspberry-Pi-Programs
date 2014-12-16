@@ -19,6 +19,7 @@ class UltraSonicSensor:
         self.echo = echo
         self.pin_type = pin_type
         
+        # No GPIO Warnings
         GPIO.setwarnings(False)
         
         if pin_type in  {"BOARD", "Board", "board"}:            
@@ -34,44 +35,42 @@ class UltraSonicSensor:
         # Setting up trigger and echo pins            
         GPIO.setup(trigger, GPIO.OUT) 	# Trig = GPIO.OUT
         GPIO.setup(echo, GPIO.IN)	# Echo = GPIO.IN
-        GPIO.setup(trigger, GPIO.LOW)        
-        
+        GPIO.setup(trigger, GPIO.LOW)                
         time.sleep(0.3)
 
     def read(self):
         ''' Get a single reading from the ultrasonic sensor'''
-    
-        GPIO.output(self.trigger, True)
-    
-        time.sleep(0.00001)
-    
+        
+        # Send 1 microsignal from trigger
+        GPIO.output(self.trigger, True)    
+        time.sleep(0.00001)    
         GPIO.output(self.trigger, False)
     
+        # Not Recieving, start time
         while GPIO.input(self.echo) == 0:
             signaloff = time.time()
     
+        # Signal recieved, stop time
         while GPIO.input(self.echo) == 1:
             signalon = time.time()
     
-        timepassed = signalon - signaloff
-    
+        # Calculate difference in time and then convert to centemeters
+        timepassed = signalon - signaloff    
         distance = timepassed * 17000
-    
-        return distance
-    
+        return distance    
             
     def ultrasonic_generator(self, time_delay, num_readings):
-        '''Generator for getting a list of values'''
+        '''Generator for getting multiple readings over a time period'''
         for i in range(num_readings):
-            yield read(self)
-            time.sleep(time_delay)        
+            yield self.read()
+            time.sleep(time_delay)                    
             
 if __name__== "__main__": 
-    
+
+    # Creates Ultrasonic Sensor Object
     sensor1 = UltraSonicSensor(24, 25, "BCM")    
     
-    fiveValues = sensor1.ultrasonic_generator(
-                                             0.5, 
-                                             5)
-    
-    
+    # Creates Generator for 5 values taken a half second apart
+    fiveValues = sensor1.ultrasonic_generator(0.5, 5)
+    for i in fiveValues:
+        print "Distance: " + str(round(i,2))+ "cm"
