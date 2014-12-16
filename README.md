@@ -18,3 +18,9 @@ Programs and Files for the Raspberry Pi
 ![LED wiring](https://raw.githubusercontent.com/zinglax/Raspberry-Pi-Programs/master/blink_LED.jpg)
 - Use with led.py
   - When wired up, create an instance of LED for on, off, and blink functionality
+
+
+## Endoscope (USB)
+![Endoscope](https://raw.githubusercontent.com/zinglax/Raspberry-Pi-Programs/master/waterproof_endoscope.jpg)
+- Use with endoscope.py
+  - Create an Endoscope object and call takepic() to get a picture 
