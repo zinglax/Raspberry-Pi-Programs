@@ -10,6 +10,9 @@ http://www.bytecreation.com/blog/2013/10/13/raspberry-pi-ultrasonic-sensor-hc-sr
 
 class UltraSonicSensor:
     '''A class for a single Ultra Sonic Sensor'''
+    trigger = None
+    echo = None
+    pin_type = "BCM"
     
     def __init__(self, trigger, echo, pin_type):
         self.trigger = trigger
@@ -29,26 +32,25 @@ class UltraSonicSensor:
             GPIO.setmode(GPIO.BCM)
         
         # Setting up trigger and echo pins            
-        GPIO.setup(trig, GPIO.OUT) 	# Trig = GPIO.OUT
+        GPIO.setup(trigger, GPIO.OUT) 	# Trig = GPIO.OUT
         GPIO.setup(echo, GPIO.IN)	# Echo = GPIO.IN
-        GPIO.setup(trig, GPIO.LOW)        
+        GPIO.setup(trigger, GPIO.LOW)        
         
         time.sleep(0.3)
 
     def read(self):
-        ''' Get a single reading from the ultrasonic sensor
-        code taken from'''
+        ''' Get a single reading from the ultrasonic sensor'''
     
-        GPIO.output(trig, True)
+        GPIO.output(self.trigger, True)
     
         time.sleep(0.00001)
     
-        GPIO.output(trig, False)
+        GPIO.output(self.trigger, False)
     
-        while GPIO.input(echo) == 0:
+        while GPIO.input(self.echo) == 0:
             signaloff = time.time()
     
-        while GPIO.input(echo) == 1:
+        while GPIO.input(self.echo) == 1:
             signalon = time.time()
     
         timepassed = signalon - signaloff
@@ -67,4 +69,9 @@ class UltraSonicSensor:
 if __name__== "__main__": 
     
     sensor1 = UltraSonicSensor(24, 25, "BCM")    
-    print sensor1.read()
+    
+    fiveValues = sensor1.ultrasonic_generator(
+                                             0.5, 
+                                             5)
+    
+    
