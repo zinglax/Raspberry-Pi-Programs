@@ -4,7 +4,7 @@ class Endoscope:
     ''' Class for Endoscope webcam'''
     resolution = "640x480"
         
-    def __init__(self, resolution):
+    def __init__(self, resolution="640x480"):
         self.resolution = resolution
     
     def takepic(self, file_and_path, banner=True):
