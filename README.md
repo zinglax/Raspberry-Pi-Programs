@@ -9,4 +9,4 @@ Programs and Files for the Raspberry Pi
 
 
 ## Ultrasonic Sensor 
-![]()
+![Ultrasoinc sensor](https://raw.githubusercontent.com/zinglax/Raspberry-Pi-Programs/master/ultrasonic_sensor.jpg)
