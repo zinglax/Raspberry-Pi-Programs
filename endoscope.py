@@ -2,7 +2,7 @@ import subprocess
 
 class Endoscope:
     ''' Class for Endoscope webcam'''
-    resolution = "640x480 "
+    resolution = "640x480"
         
     def __init__(self, resolution):
         self.resolution = resolution
@@ -11,7 +11,7 @@ class Endoscope:
         ''' Takes a picture given a specified name, command should look like
         fswebcam -r 640x480 --no-banner image3.jpg        
         or something similar '''        
-        command = "fswebcam -r " + self.resolution
+        command = "fswebcam -r " + self.resolution + " "
         
         # check to add banner
         if banner == False:
@@ -19,6 +19,8 @@ class Endoscope:
         
         # adds the file path
         command += file_and_path
+        
+        print command
         
         return_val = subprocess.call(command, shell=True)
         
@@ -28,5 +30,8 @@ class Endoscope:
             print "oops the picture was not taken :-("
         
         
+if __name__=="__main__":
     
+    camera = Endoscope("640x480")
+    camera.takepic("py_program_image.jpg", banner=False)
     
