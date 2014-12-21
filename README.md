@@ -24,3 +24,12 @@ Programs and Files for the Raspberry Pi
 ![Endoscope](https://raw.githubusercontent.com/zinglax/Raspberry-Pi-Programs/master/waterproof_endoscope.jpg)
 - Use with endoscope.py
   - Create an Endoscope object and call takepic() to get a picture 
+
+## twitterpi.py
+- uses endoscope and Twython library to take a picture when a certain hashtag is tweated
+- Your twitter handle is mentioned (@YOURNAME) in the tweet along with the picture so you can see how it turned out.
+
+## Charlieplexing LEDs
+- charlieplex_led.py
+- can wire n^2-n leds where n is the number of gpio pins used
+![charlieplex leds](https://raw.githubusercontent.com/zinglax/Raspberry-Pi-Programs/master/charlieplex_leds.png)
