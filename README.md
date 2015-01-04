@@ -35,3 +35,8 @@ Programs and Files for the Raspberry Pi
 - charlieplex_led.py
 - can wire n^2-n leds where n is the number of gpio pins used
 ![charlieplex leds](https://raw.githubusercontent.com/zinglax/Raspberry-Pi-Programs/master/charlieplex_leds.png)
+
+-------------
+## Passive Infrared Sensor
+![Passive Infrared Sensor](https://raw.githubusercontent.com/zinglax/Raspberry-Pi-Programs/master/passiveinfrared_sensor_wiring.jpg)
+- Use with passiveinfrared.py
