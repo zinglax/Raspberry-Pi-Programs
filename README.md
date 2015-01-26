@@ -40,3 +40,8 @@ Programs and Files for the Raspberry Pi
 ## Passive Infrared Sensor
 ![Passive Infrared Sensor](https://raw.githubusercontent.com/zinglax/Raspberry-Pi-Programs/master/passiveinfrared_sensor_wiring.jpg)
 - Use with passiveinfrared.py
+
+-------------
+## RGB LED
+- Use with RGBled.py
+- Controls a rgb led
