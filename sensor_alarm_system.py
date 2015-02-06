@@ -11,6 +11,8 @@ Components: RGB-LED, Ultrasonic Sensor or PIR Sensor
 from twython import Twython as tw
 from twython import TwythonStreamer
 from time import gmtime, strftime
+import time
+
 
 # Local libraries
 import endoscope
@@ -36,16 +38,21 @@ class SensorAlarmSystem(TwythonStreamer):
         photo = open(image_name, 'rb')
         twythonObj.update_status_with_media(status='Checkout this cool image!  @' + data['user']['screen_name'], media=photo)        
         
-    def start_ultrasonic_sensor():
+    def start_ultrasonic_sensor(self):
         distance = 50
         
         u = ultrasonic.UltraSonicSensor(22,17,"BCM")
         l = RGBled.RGBled(23, 18, 24, "BCM")
         
         l.on_b()
-        
-        while u.read() <= 50:
+        print "blue led is now on"
+                
+        x= u.read()
+        while x <= 50:
             l.blink_r(1)
+            x = u.read()
+            time.sleep(0.5)
+            
             
         print "sensor now reads greater than 50"
         l.blink_g(5)
@@ -70,9 +77,11 @@ class SensorAlarmSystem(TwythonStreamer):
             # Is your USB camera Setup?
             # self.take_picture_send_tweet(data, t)
             
+            self.start_ultrasonic_sensor()
+            
             print "WOW WHAT A GREAT DAY"
             
-            self.start_ultrasonic_sensor()
+            
             
 
 if __name__=="__main__":
