@@ -44,13 +44,15 @@ class SensorAlarmSystem(TwythonStreamer):
         u = ultrasonic.UltraSonicSensor(22,17,"BCM")
         l = RGBled.RGBled(23, 18, 24, "BCM")
         
-        l.on_b()
-        print "blue led is now on"
+        #l.on_b()
+        #print "blue led is now on"
                 
         x= u.read()
+        print 'Start Distance: ' + str(x)
         while x <= 50:
             l.blink_r(1)
             x = u.read()
+            print 'Distance: ' + str(x)
             time.sleep(0.5)
             
             
