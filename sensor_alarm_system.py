@@ -14,6 +14,8 @@ from time import gmtime, strftime
 
 # Local libraries
 import endoscope
+import ultrasonic
+import RGBled
 
 class SensorAlarmSystem(TwythonStreamer):
     consumer_key = "XJGitZ02u0wvfJ6L3WMqT1bRL"
@@ -34,6 +36,23 @@ class SensorAlarmSystem(TwythonStreamer):
         photo = open(image_name, 'rb')
         twythonObj.update_status_with_media(status='Checkout this cool image!  @' + data['user']['screen_name'], media=photo)        
         
+    def start_ultrasonic_sensor():
+        distance = 50
+        
+        u = ultrasonic.UltraSonicSensor(22,17,"BCM")
+        l = RGBled.RGBled(23, 18, 24, "BCM")
+        
+        l.on_b()
+        
+        while u.read() <= 50:
+            l.blink_r(1)
+            
+        print "sensor now reads greater than 50"
+        l.blink_g(5)
+        l.off_b()
+        l.on_g()
+        
+        
     def on_success(self, data):
         
         if 'text' in data:
@@ -52,6 +71,9 @@ class SensorAlarmSystem(TwythonStreamer):
             # self.take_picture_send_tweet(data, t)
             
             print "WOW WHAT A GREAT DAY"
+            
+            self.start_ultrasonic_sensor()
+            
 
 if __name__=="__main__":
     # OhChristmasTree (twitter app) credientials Under username TimsXmasTree
@@ -61,9 +83,8 @@ if __name__=="__main__":
     access_token_secret = "5siPX5Rxe3AMGhVsl9iHA6QgJpHwxeGqIRzwugRExljCx"  
     
     # Streaming
-    stream = Pic_Taker_Twitter(consumer_key,
+    stream = SensorAlarmSystem(consumer_key,
                                consumer_secret,
                                access_token,
                                access_token_secret)
     stream.statuses.filter(track="#OONN")    
-    stream.statuses.filter(track="#OOFFFF")    
