@@ -74,7 +74,7 @@ class RGBled:
         GPIO.output(self.b_pin, GPIO.LOW)
                 
 if __name__=="__main__":
-    led = RGBled(24, 18, 23, "BCM")
+    led = RGBled(20, 16, 12, "BCM")
     
     for i in range(0,25):
         led.blink_r(.2)

@@ -29,11 +29,20 @@ class Pic_Taker_Twitter(TwythonStreamer):
             t = tw(consumer_key, consumer_secret, 
                   access_token, 
                   access_token_secret)
-            
+             
             photo = open(image_name, 'rb')
-            t.update_status_with_media(status='Checkout this cool image!  @' + data['user']['screen_name'], media=photo)       
+            response = t.upload_media(media=photo)
+	    t.update_status(status='Check out this cool Image! @' + data['user']['screen_name'], media_ids=[response['media_id']])
+            	    
+
+
+
+
+	    #t.upload_media(status='Checkout this cool image!  @' + data['user']['screen_name'], media=photo)       
+            #print 'did it work?'
             
-            
+            #t.update_status_with_media(status='Checkout this cool image!  @' + data['user']['screen_name'], media=photo)       
+            #print 'did it work?'
             
     
     def on_error(self, status_code, data):
